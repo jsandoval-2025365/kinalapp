@@ -64,7 +64,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public void eliminar(int co_usuario) {
         if(!clienteRepository.existsById(co_usuario)){
-            throw new RuntimeException("El usuario no se encontro con el codigo: "+co_usuario)
+            throw new RuntimeException("El usuario no se encontro con el codigo: "+co_usuario);
         }
 
         clienteRepository.deleteById(co_usuario);
