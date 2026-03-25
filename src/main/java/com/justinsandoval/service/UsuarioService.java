@@ -2,6 +2,8 @@ package com.justinsandoval.service;
 
 import com.justinsandoval.entity.Usuario;
 import com.justinsandoval.repository.IUsuarioRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

@@ -14,7 +14,7 @@ public class Usuario {
     //Atributos
     @Id
     @Column(name = "codigo_usuario")
-    private int co_usuario;
+    private long co_usuario;
     @Column
     private String username;
     @Column
