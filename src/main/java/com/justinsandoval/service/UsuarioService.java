@@ -2,6 +2,8 @@ package com.justinsandoval.service;
 
 import com.justinsandoval.entity.Usuario;
 import com.justinsandoval.repository.IUsuarioRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +66,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public void eliminar(int co_usuario) {
         if(!clienteRepository.existsById(co_usuario)){
-            throw new RuntimeException("El usuario no se encontro con el codigo: "+co_usuario)
+            throw new RuntimeException("El usuario no se encontro con el codigo: "+co_usuario);
         }
 
         clienteRepository.deleteById(co_usuario);
