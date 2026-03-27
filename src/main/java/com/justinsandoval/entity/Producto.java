@@ -1,15 +1,22 @@
 package com.justinsandoval.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "productos")
 public class Producto {
 
     @Id
     @Column(name = "codigo_producto")
-    private long co_producto;
-    @Column(nullabled = true)
-    private String nombre_producto;
+    private Long co_producto;
     @Column
+    private String nombre_producto;
+    @Column(precision = 10 , scale = 2)
     private BigDecimal precio;
     @Column
     private int stock;
@@ -21,7 +28,7 @@ public class Producto {
 
     }
 
-    public Producto(long co_producto, String nombre_producto, BigDecimal precio, int stock, int estado) {
+    public Producto(Long co_producto, String nombre_producto, BigDecimal precio, int stock, int estado) {
         this.co_producto = co_producto;
         this.nombre_producto = nombre_producto;
         this.precio = precio;
@@ -29,11 +36,11 @@ public class Producto {
         this.estado = estado;
     }
 
-    public long getCo_producto() {
+    public Long getCo_producto() {
         return co_producto;
     }
 
-    public void setCo_producto(long co_producto) {
+    public void setCo_producto(Long co_producto) {
         this.co_producto = co_producto;
     }
 
