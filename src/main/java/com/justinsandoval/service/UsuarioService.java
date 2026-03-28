@@ -31,45 +31,45 @@ public class UsuarioService implements IUsuarioService {
     public Usuario guardar(Usuario usuario) {
         
         validarUsuario(usuario);
-        if(cliente.getEstado() == 0)
-            cliente.setEstado(1);
+        if(usuario.getEstado() == 0)
+            usuario.setEstado((long)1);
         
-        return clienteRepository.save(cliente);
+        return usuarioRepository.save(usuario);
 
     }
 
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<Usuario> buscarPorCodigo(int co_usuario) {
-        return clienteRepository.findById(co_usuario);
+    public Optional<Usuario> buscarPorCodigo(Long co_usuario) {
+        return usuarioRepository.findById(co_usuario);
     
     }
 
 
 
     @Override
-    public Usuario actualizar(int co_usuario, Usuario usuario) {
+    public Usuario actualizar(Long co_usuario, Usuario usuario) {
         
         if(!usuarioRepository.existsById(co_usuario)){
             throw new RuntimeException("El usuario con el codigo " + co_usuario + "no existe");
         }
 
-        cliente.setCo_usuario(co_usuario);
+        usuario.setCo_usuario(co_usuario);
         validarUsuario(usuario);
         
-        return clienteRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
 
 
     @Override
-    public void eliminar(int co_usuario) {
-        if(!clienteRepository.existsById(co_usuario)){
+    public void eliminar(Long co_usuario) {
+        if(!usuarioRepository.existsById(co_usuario)){
             throw new RuntimeException("El usuario no se encontro con el codigo: "+co_usuario);
         }
 
-        clienteRepository.deleteById(co_usuario);
+        usuarioRepository.deleteById(co_usuario);
 
     }
 
@@ -77,15 +77,15 @@ public class UsuarioService implements IUsuarioService {
     
     @Override
     @Transactional(readOnly = true)
-    public boolean existePorCodigo(int co_usuario) {
-        return clienteRepository.existexistsById(co_usuario);
+    public boolean existePorCodigo(Long co_usuario) {
+        return usuarioRepository.existsById(co_usuario);
     }
 
 
     
     private void validarUsuario(Usuario usuario){
         
-        if(usuario.getCo_usuario() == null || usuario.getCo_usuario().trim().isEmpty() ){
+        if(usuario.getCo_usuario() == null || usuario.getCo_usuario() <= 0 ){
             throw new IllegalArgumentException("El codigo de identificación del usuario es un dato obligatorio");
 
         }
