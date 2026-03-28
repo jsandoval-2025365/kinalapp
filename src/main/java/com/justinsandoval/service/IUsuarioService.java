@@ -11,13 +11,13 @@ public interface IUsuarioService {
 
     Usuario guardar (Usuario usuario);
 
-    Optional<Usuario> buscarPorCodigo(int co_usuario);
+    Optional<Usuario> buscarPorCodigo(Long co_usuario);
 
-    Usuario actualizar(int co_usuario, Usuario usuario);
+    Usuario actualizar(Long co_usuario, Usuario usuario);
 
-    void eliminar(int co_usuario);
+    void eliminar(Long co_usuario);
 
-    boolean existePorCodigo(int co_usuario);
+    boolean existePorCodigo(Long co_usuario);
 
 
     
