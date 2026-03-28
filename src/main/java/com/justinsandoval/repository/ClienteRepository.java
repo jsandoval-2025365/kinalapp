@@ -8,5 +8,5 @@ import java.util.List;
 public interface ClienteRepository extends JpaRepository<Cliente, String> {
 
 
-    List<Cliente> findByEstado(int estado);
+    List<Cliente> findByEstado(Long estado);
 }
