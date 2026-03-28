@@ -29,7 +29,7 @@ public class ClienteService implements IClienteService{
     // Modificando
     @Override
     public List<Cliente> listarEstado() {
-        return clienteRepository.findByEstado(1);
+        return clienteRepository.findByEstado((long) 1);
     }
 
 
@@ -39,12 +39,12 @@ public class ClienteService implements IClienteService{
     public Cliente guardar(Cliente cliente) {
         /*
         * Metodo de guardar, crea un Cliente
-        * Acá es donde colocamos la lógica del negocio antes de guardar
+        * Acá es donde colocamos la lógica del negocio antes de guard   ar
         * Pero primero validamos el dato
         **/
         validarCliente(cliente);
         if(cliente.getEstado() == 0)
-            cliente.setEstado(1);
+            cliente.setEstado((long)1);
         return clienteRepository.save(cliente);
 
 
@@ -105,7 +105,7 @@ public class ClienteService implements IClienteService{
         * Validaciones del negocio: Este metodo se hará privado porque
         * es algo interno del servicio
         **/
-        if(cliente.getDPICliente() == null || cliente.getDPICliente().trim().isEmpty()){
+        if(cliente.getDPICliente() == null || (cliente.getDPICliente().trim().isEmpty())){
             //Si el dpi es null o esta vacio despues de quitar espacios
             //Lanza una excepcion con un mensaje
             throw new IllegalArgumentException("El DPI es un dato obligatorio");
