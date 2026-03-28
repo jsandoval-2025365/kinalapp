@@ -15,15 +15,15 @@ public class Usuario {
     @Id
     @Column(name = "codigo_usuario")
     private Long co_usuario;
-    @Column
+    @Column(nullable = false)
     private String username;
-    @Column
+    @Column(nullable = false)
     private String password;
-    @Column
+    @Column(nullable = false)
     private String email;
-    @Column
+    @Column(nullable = false)
     private String rol;
-    @Column
+    @Column(nullable = false)
     private Long estado;
 
     //Constructor vacio
