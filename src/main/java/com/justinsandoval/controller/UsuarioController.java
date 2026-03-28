@@ -2,11 +2,12 @@ package com.justinsandoval.controller;
 
 import com.justinsandoval.entity.Usuario;
 import com.justinsandoval.service.IUsuarioService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -29,7 +30,7 @@ public class UsuarioController {
 
  
     @GetMapping("/{co_usuario}")
-    public ResponseEntity<Usuario> buscarPorCodigo(@PathVariable int co_usuario){
+    public ResponseEntity<Usuario> buscarPorCodigo(@PathVariable Long co_usuario){
     
         return usuarioService.buscarPorCodigo(co_usuario)
                 .map(ResponseEntity::ok)
@@ -58,7 +59,7 @@ public class UsuarioController {
 
 
     @PutMapping("/{co_usuario}")
-    public ResponseEntity<?> actualizar(@PathVariable String dpi , @RequestBody Usuario usuario) {
+    public ResponseEntity<?> actualizar(@PathVariable Long co_usuario , @RequestBody Usuario usuario) {
 
         try {
             if(!usuarioService.existePorCodigo(co_usuario)){
@@ -84,11 +85,11 @@ public class UsuarioController {
 
 
     @DeleteMapping("/{co_usuario}")
-     public ResponseEntity<Void> eliminar(@PathVariable int co_usuario){
+     public ResponseEntity<Void> eliminar(@PathVariable Long co_usuario){
         //ResponseEntity<Void>: No devuelve cuerpo en la respuesta
 
         try{
-            if(!usuarioService.existsPorCodigo(co_usuario)){
+            if(!usuarioService.existePorCodigo(co_usuario)){
                 return ResponseEntity.notFound().build();
                 //404 Si no existe
             }
