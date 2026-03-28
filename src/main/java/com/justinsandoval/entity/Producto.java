@@ -17,11 +17,11 @@ public class Producto {
     private Long co_producto;
     @Column (nullable = false)
     private String nombre_producto;
-    @Column(precision = 10 , scale = 2)
+    @Column(precision = 10 , scale = 2, nullable = false)
     private BigDecimal precio;
-    @Column
+    @Column(nullable = false)
     private Long stock;
-    @Column
+    @Column(nullable = false)
     private Long estado;
 
     public Producto(){
