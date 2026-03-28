@@ -14,7 +14,7 @@ public class Usuario {
     //Atributos
     @Id
     @Column(name = "codigo_usuario")
-    private long co_usuario;
+    private Long co_usuario;
     @Column
     private String username;
     @Column
@@ -24,7 +24,7 @@ public class Usuario {
     @Column
     private String rol;
     @Column
-    private int estado;
+    private Long estado;
 
     //Constructor vacio
     public Usuario(){
@@ -32,7 +32,7 @@ public class Usuario {
     }
 
     //Constructor lleno
-    public Usuario(int co_usuario, String username, String password, String email, String rol, int estado) {
+    public Usuario(Long co_usuario, String username, String password, String email, String rol, Long estado) {
         this.co_usuario = co_usuario;
         this.username = username;
         this.password = password;
@@ -43,11 +43,11 @@ public class Usuario {
 
 
     //Metodos de Acceso Getters and Setters
-    public int getCo_usuario() {
+    public Long getCo_usuario() {
         return co_usuario;
     }
 
-    public void setCo_usuario(int co_usuario) {
+    public void setCo_usuario(Long co_usuario) {
         this.co_usuario = co_usuario;
     }
 
@@ -83,11 +83,11 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public int getEstado() {
+    public Long getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Long estado) {
         this.estado = estado;
     }
 }
