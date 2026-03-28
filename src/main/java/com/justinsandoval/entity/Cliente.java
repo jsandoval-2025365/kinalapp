@@ -14,13 +14,13 @@ public class Cliente {
     @Id
     @Column (name = "dpi_cliente")
     private String DPICliente;
-    @Column
+    @Column(nullable = false)
     private String nombreCliente;
-    @Column
+    @Column(nullable = false)
     private String apellidoCliente;
-    @Column
+    @Column(nullable = false)
     private String direccion;
-    @Column
+    @Column(nullable = false)
     private Long estado;
 
     public Cliente(){
