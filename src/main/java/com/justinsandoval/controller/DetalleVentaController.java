@@ -1,7 +1,10 @@
 package com.justinsandoval.controller;
 
+
 import com.justinsandoval.entity.Cliente;
-import com.justinsandoval.service.IClienteService;
+import com.justinsandoval.entity.DetalleVenta;
+import com.justinsandoval.service.DetalleVentaService;
+import com.justinsandoval.service.IDetalleVenta;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,37 +12,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RestController = @Controller + @RequestBody
-@RequestMapping("/clientes")
-//Todas las rutas en este controlador deben empezar por /clientes
-public class ClienteController {
-
+@RequestMapping("/detalleVenta")
+public class DetalleVentaController {   
+    
     //Inyectamos el SERVICIO y NO el REPOSITORIO
     //El controlador solo debe de tener conexion con el servicio
 
-    private final IClienteService clienteService;
+    private final IDetalleVenta detalleVentaService;
     //Como buena practica la Inyeccion de dependencias debe hacerse por el constructor
 
-    public ClienteController(IClienteService clienteService) {
-        this.clienteService = clienteService;
+    public DetalleVentaController(IDetalleVenta detalleVentaService) {
+        this.detalleVentaService = detalleVentaService;
     }
 
 
     //Responde peticiones GET
     @GetMapping
     //ResponseEntity nos permite controlar el codigo HTTP y el cuerpo
-    public ResponseEntity<List<Cliente>> listar(){
-        List<Cliente> clientes = clienteService.listarTodos();
+    public ResponseEntity<List<DetalleVenta>> listar(){
+        List<DetalleVenta> detalleVentas = detalleVentaService.listarTodos();
         //Delegamos al servicio
-        return ResponseEntity.ok(clientes);
-        // 200 OK con la lista de clientes
+        return ResponseEntity.ok(detalleVentas);
+        // 200 OK con la lista de detalleVenta
     }
 
     //{dpi} es una variable de ruta(valor a buscar)
-    @GetMapping("/{dpi}")
-    public ResponseEntity<Cliente> buscarPorId(@PathVariable String dpi){
+    @GetMapping("/{co_detalle_venta}")
+    public ResponseEntity<DetalleVenta> buscarPorCodigo(@PathVariable Long co_detalle_venta){
         //@PathVariable Toma el valor de la URL y lo asigna al dpi
-        return clienteService.buscarPorDPI(dpi)
+        return detalleVentaService.buscarPorCodigo(co_detalle_venta)
                 //Si Optional tiene valor, devuelve 200 Ok con el cliente
                 .map(ResponseEntity::ok)
                 //Si Optional esta vacío, devuelve 404 NOT FOUND
@@ -48,14 +49,14 @@ public class ClienteController {
 
     //POST crear un nuevo cliente
     @PostMapping
-    public ResponseEntity<?> guardar(@RequestBody Cliente cliente){
+    public ResponseEntity<?> guardar(@RequestBody DetalleVenta detalleVenta){
         //@ResquestBody: Toma el JSON del cuerpo y lo convierte a un objeto de tipo Cliente
         //<?> significa "tipo generico" puede ser un Cliente o un String
         try {
-            Cliente nuevoCliente = clienteService.guardar(cliente);
+            DetalleVenta nuevoDetalleVenta = detalleVentaService.guardar(detalleVenta);
             //Intentamos guardar el cliente pero puede lanzar una excepcion
             //de IllegalArgumentException
-            return new ResponseEntity<>(nuevoCliente , HttpStatus.CREATED);
+            return new ResponseEntity<>(nuevoDetalleVenta , HttpStatus.CREATED);
             //201 CREATED(mucho mas especifico que el 200 para la creacion de un cliente)
 
         }catch(IllegalArgumentException e){
@@ -67,16 +68,16 @@ public class ClienteController {
     }
 
     //DELETE para eliminar un cliente
-    @DeleteMapping("/{dpi}")
-    public ResponseEntity<Void> eliminar(@PathVariable String dpi){
+    @DeleteMapping("/{co_detalle_venta}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long co_detalle_venta){
         //ResponseEntity<Void>: No devuelve cuerpo en la respuesta
 
         try{
-            if(!clienteService.existePorDPI(dpi)){
+            if(!detalleVentaService.existByCodigo(co_detalle_venta)){
                 return ResponseEntity.notFound().build();
                 //404 Si no existe
             }
-            clienteService.eliminar(dpi);
+            detalleVentaService.eliminar(co_detalle_venta);
             return ResponseEntity.noContent().build();
             //204 NO CONTENT(se ejecutó correctamente y no devuelve cuerpo)
 
@@ -88,21 +89,21 @@ public class ClienteController {
     }
 
     //PUT Actualizar un cliente a traves del dpi
-    @PutMapping("/{dpi}")
-    public ResponseEntity<?> actualizar(@PathVariable String dpi , @RequestBody Cliente cliente) {
+    @PutMapping("/{co_detalle_venta}")
+    public ResponseEntity<?> actualizar(@PathVariable Long co_detalle_venta , @RequestBody DetalleVenta detalleVenta) {
 
         try {
-            if(!clienteService.existePorDPI(dpi)){
+            if(!detalleVentaService.existByCodigo(co_detalle_venta)){
                 //Verificar si existe antes de poder actualizar
                 return ResponseEntity.notFound().build();
                 //404 NOT FOUND
             }
-            Cliente clienteActualizado = clienteService.actualizar(dpi , cliente);
-            return ResponseEntity.ok(clienteActualizado);
+            DetalleVenta detalleVentaActualizado = detalleVentaService.actualizar(co_detalle_venta , detalleVenta);
+            return ResponseEntity.ok(detalleVentaActualizado);
             //200 OK con el cliente ya actualizado
 
 
-        } catch (IllegalArgumentException e) {  
+        } catch (IllegalArgumentException e) {
             //Error cuando los datos sean incorrectos
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch(RuntimeException e){
@@ -112,13 +113,6 @@ public class ClienteController {
         }
     }
 
-    //Mostrar Solo Los Cliente Activos
-    @GetMapping("/estado")
-    public ResponseEntity<List<Cliente>> activos(){
-        //@PathVariable Toma el valor de la URL y lo asigna al dpi
-        List<Cliente> activos = clienteService.listarEstado();
-        return ResponseEntity.ok(activos);
-    }
 
 
 
